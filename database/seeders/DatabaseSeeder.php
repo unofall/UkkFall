@@ -33,8 +33,16 @@ class DatabaseSeeder extends Seeder
         "nohp" => "122121222",
         "address" => "Mrj",
         "level" => 2,
-        "foto" => '',
+        "foto" => 'assets/img/member.jpeg',
         "password" => bcrypt("1234"),
+       ]);
+
+       Event::create([
+        "name" => "Santunan",
+        "description" => "Mencar Anak Sholeh",
+        "date" => "2024-11-26",
+        "created_by" => 2,
+
        ]);
 
 

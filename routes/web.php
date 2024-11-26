@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DetailReportController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskController;
@@ -83,6 +84,7 @@ Route::middleware(['checkLevel:Admin'])->group(function () {
     Route::post('/updateDetail/{id}', [DetailReportController::class, 'update']);
     Route::get('/deleteDetail/{id}', [DetailReportController::class, 'delete']);
 
+    Route::get('/tasks/export', [ExcelController::class, 'export'])->name('tasks.export');
     // Route::get('/member',[MemberController::class,'show']);
 
     // Route::get('/member/showmember',[MemberController::class,'show']);
@@ -103,7 +105,7 @@ Route::middleware(['checkLevel:Member'])->group(function () {
 
 
     Route::get('/member/task', [TaskController::class, 'showtask']);
-    Route::get('/search', [TaskController::class, 'search']);
+    Route::get('/filter', [TaskController::class, 'selectEvents']);
     Route::get('/member/task/create/{id}', [TaskController::class, 'addtask']);
     Route::post('/member/task/create/{id}', [TaskController::class, 'createtask']);
     Route::get('/member/task/update/{id}', [TaskController::class, 'edittask']);
@@ -121,7 +123,6 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::get('/member/subSubtask/{id}', [TaskController::class, 'showsubSubtask']);
     Route::get('/member/create-subSubtask/{id}', [TaskController::class, 'addsubSubtasks']);
     Route::post('/member/create-subSubtask/{id}', [TaskController::class, 'addsubSubtask']);
-    // Route::get('/completeSubSubTask/{id}', [TaskController::class,'completeSubSubTask']);
     Route::get('/member/edit-subSubtask/{id}', [TaskController::class, 'edit']);
     Route::post('/member/edit-subSubtask/{id}', [TaskController::class, 'update']);
     Route::get('/member/deletesubSubTask/{id}', [TaskController::class, 'delete']);
@@ -129,12 +130,16 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::get('/member/report', [ReportController::class, 'show']);
     Route::get('/member/create_report/{id}', [ReportController::class, 'add']);
     Route::post('/member/create_report/{id}', [ReportController::class, 'create']);
-    Route::get('/report/update/{id}', [ReportController::class, 'edit']);
-    Route::post('/report/update/{id}', [ReportController::class, 'update']);
-    Route::get('/deletereport/{id}', [ReportController::class, 'delete']);
+    Route::get('/member/report/update/{id}', [ReportController::class, 'edit']);
+    Route::post('/member/report/update/{id}', [ReportController::class, 'update']);
+    Route::get('/member/deletereport/{id}', [ReportController::class, 'delete']);
 
 
     Route::get('/member/detailReport', [DetailReportController::class, 'show']);
+    Route::get('/member/addDetailReport/{id}', [DetailReportController::class, 'add']);
+    Route::post('/member/addDetailReport/{id}', [DetailReportController::class, 'create']);
+
+
 
     Route::get('/member/showmember',[MemberController::class,'show']);
     Route::get('/member/addmember/{id}',[MemberController::class,'addmember']);
@@ -143,6 +148,9 @@ Route::middleware(['checkLevel:Member'])->group(function () {
 
 
 
+    Route::get('/member/profile', [AuthController::class, 'profile']);
+    Route::get('/member/profupdate/{id}', [AuthController::class, 'profupdate']);
+    Route::post('/member/profupdate/{id}',[AuthController::class,'edit']);
 
 
     Route::get('/member/logout', [AuthController::class, 'logout']);

@@ -17,10 +17,18 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title mx-3">Users Table</div>
+                <div class="card rounded-3 p-2">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <!-- Title -->
+                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management User</div>
+                        <!-- Filter Form -->
+                        <div class="d-flex justify-content-end p-1 ">
+                            <a href="/adduser" class="btn btn-primary">Create User</a>
+                        </div>
                     </div>
+                </div>
+
+                <div class="card">
                     <div class="card-body">
                         @if (session()->has('Pesan'))
                             <div class="alert alert-danger" style="width: 100% ; ">
@@ -50,6 +58,9 @@
 
 
                         <table class="table mt-3 text-center">
+                            <div class="card-sub">
+                                This is the User table :
+                            </div>
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
@@ -98,9 +109,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                <div class="d-flex justify-content-end p-1 ">
-                                    <a href="/adduser" class="btn btn-primary">Create User</a>
-                                </div>
+
                             </tbody>
                         </table>
 

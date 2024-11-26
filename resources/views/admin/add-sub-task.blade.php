@@ -1,11 +1,13 @@
 @extends('template-admin.navbar')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header text-center">
-                        <div class="card-title">Add Task</div>
+                        <div class="card-title fs-6 fw-bold">Create Sub Task</div>
 
                     </div>
                     <div class="card-body">
@@ -27,11 +29,7 @@
                                     placeholder="Input name task" value="{{ $task->name }}" disabled>
                             </div>
                             <input type="hidden" name="task_idtasks" value="{{ $task->id }}">
-                            <div class="d-flex justify-content-end mt-2 mr-2">
-                                <button type="button" class="btn btn-primary " onclick="addCriteria()">
-                                    <li class="la la-plus"></li>
-                                </button>
-                            </div>
+
                             <div id="criteria-container">
                                 <div class="form-group">
                                     <label for="input-1">Sub Task</label>
@@ -43,6 +41,11 @@
                                     <textarea id="" cols="30" rows="7" id="input-3" name="description[]"
                                         class="form-control input-square"></textarea>
                                 </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-2 mr-2">
+                                <button type="button" class="btn btn-primary " onclick="addCriteria()">
+                                    <li class="la la-plus"></li>
+                                </button>
                             </div>
                             {{--  <input type="hidden" name="task_idtasks" value="">  --}}
 

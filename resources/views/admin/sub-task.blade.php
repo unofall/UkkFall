@@ -60,26 +60,27 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title"><a href="/task" style="color: black; text-decoration: none">Management Task /
-                                {{ $task->name }} </a></div>
-                    </div>
-                    <div class="card-body">
-                        {{--  <div class="card-sub">
-                        This is the basic table view of the ready dashboard :
-                    </div>  --}}
-
-                        <table class="table mt-3 text-center">
-                            <div class="d-flex justify-content-end p-1">
-                                @if (Auth::user()->level === 'Admin')
-                                <a href="/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
-                                    Task</a>
-                            @elseif (Auth::user()->level === 'Member')
-                            <a href="/member/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
+                <div class="card rounded-3 h-12" style="padding: 20px 10px">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Sub Task</div>
+                        <div class="d-flex justify-content-end p-1">
+                            @if (Auth::user()->level === 'Admin')
+                            <a href="/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
                                 Task</a>
-                            @endif
+                        @elseif (Auth::user()->level === 'Member')
+                        <a href="/member/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
+                            Task</a>
+                        @endif
 
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table mt-3 text-center">
+                            <div class="card-sub">
+                                This is the Sub task table :
                             </div>
                             <thead>
                                 <tr>
@@ -173,8 +174,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
-
                     </div>
                 </div>
             </div>

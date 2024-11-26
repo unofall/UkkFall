@@ -1,4 +1,6 @@
 @extends('/template-admin/navbar')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
         <div class="main-panel">
             <div class="content">
@@ -35,8 +37,8 @@
                                         </div>
                                         <div class="col-7 d-flex align-items-center">
                                             <div class="numbers">
-                                                <p class="card-category">Sales</p>
-                                                <h4 class="card-title">$ 1,345</h4>
+                                                <p class="card-category">Total Detail</p>
+                                                <h4 class="card-title text-center">{{ $detailCount }}</h4>
                                             </div>
                                         </div>
                                     </div>

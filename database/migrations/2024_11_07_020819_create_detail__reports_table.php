@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('description');
             $table->dateTime('datetime');
-            $table->text('link_file')->nullable();
+            $table->text('link_file')->nullable()->nullable();
             $table->text('file_upload')->unique()->nullable();
             $table->integer('percentage')->default(0);
             $table->foreignId('reports_id')->constrained('reports')->cascadeOnDelete();

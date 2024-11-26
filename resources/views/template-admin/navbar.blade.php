@@ -15,14 +15,25 @@
 
     <title>Document</title>
     <style>
-        .nav-item .active {
-            background-color: #434446;
-            font-weight: 900;
-            color: white;
+        .nav-item {
+            color: black
         }
 
+        .nav-item .active {
+            background-color: #2a2a2a;
+            font-weight: 900;
+            color: black;
+        }
+
+
         .custom-font {
-            font-family: ;
+            color: grey;
+        }
+
+        .nav-link.active .custom-font,
+        .nav-link.active i {
+            color: white;
+            /* Warna teks untuk link aktif */
         }
     </style>
 
@@ -34,7 +45,7 @@
     <div class="main-header">
         <div class="logo-header">
             <a href="/home" class="logo">
-                UKKFALL
+                Management System
             </a>
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                 data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,34 +56,39 @@
 
         <nav class="navbar navbar-header navbar-expand-lg">
             <div class="container-fluid">
-
-                {{--  <form class="navbar-left navbar-form nav-search mr-md-3" action="">
-                    <div class="input-group">
-                        <input type="text" placeholder="Search ..." class="form-control">
-                        <div class="input-group-append">
-                            <span class="input-group-text">
-                                <i class="la la-search search-icon"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>  --}}
                 <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                             aria-expanded="false">
-                            <img src={{ asset('assets/img/profile.jpg') }} alt="user-img" width="36"
-                                class="img-circle">
-                            <span>{{ Auth::User()->name }}</a>
+                            @if (Auth::user()->level === 'Admin')
+                                <img src={{ asset('assets/img/profile.jpg') }} alt="user-img" width="36"
+                                    class="img-circle">
+                            @else
+                                <img src={{ asset('assets/img/member.jpg') }} alt="user-img" width="36"
+                                    class="img-circle">
+                            @endif
+
+
+                            <span>{{ Auth::User()->name }}
+                        </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
                                 <div class="user-box">
-                                    <div class="u-img"><img src={{ asset('assets/img/profile.jpg') }} alt="user">
+                                    <div class="u-img">
+                                        @if (Auth::user()->level === 'Admin')
+                                            <img src={{ asset('assets/img/profile.jpg') }} alt="user-img" width="36"
+                                                class="img-circle">
+                                        @else
+                                            <img src={{ asset('assets/img/member.jpg') }} alt="user-img"
+                                                style="width: 100%; height: 100%; object-fit: cover" class="img-circle">
+                                        @endif
+
                                     </div>
                                     <div class="u-text">
                                         <h4>{{ Auth::User()->name }}</h4>
                                         <p>{{ Auth::User()->email }}</p>
-                                        <p class="text-muted"></p><a href="/profile"
+                                        <p class="text-muted"></p><a href="/member/profile"
                                             class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                     </div>
                                 </div>
@@ -97,7 +113,11 @@
         <div class="scrollbar-inner sidebar-wrapper">
             <div class="user">
                 <div class="photo">
-                    <img src={{ asset('assets/img/profile.jpg') }}>
+                    @if (Auth::user()->level === 'Admin')
+                        <img src={{ asset('assets/img/profile.jpg') }}>
+                    @else
+                        <img src={{ asset('assets/img/member.jpg') }}>
+                    @endif
                 </div>
                 <div class="info">
                     <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -112,7 +132,7 @@
                     <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
                         <ul class="nav">
                             <li>
-                                <a href="/profile">
+                                <a href="/member/profile">
                                     <span class="link-collapse">My Profile</span>
                                 </a>
                             </li>
@@ -127,8 +147,7 @@
                 </div>
             </div>
             <ul class="nav">
-                <li class="nav-item">
-
+                <li class="nav-item ">
                     @if (Auth::user()->level === 'Admin')
                         <a href="/home" class="nav-link">
                         @else
@@ -139,65 +158,66 @@
                     </a>
                 </li>
                 @if (Auth::user()->level === 'Admin')
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a href="/user" class="nav-link">
                             <i class="la la-group"></i>
-                            <p class="custom-font">Management Users</p>
+                            <p class="custom-font">Management User</p>
                         </a>
                     @else
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a href="/member/showmember" class="nav-link">
                             <i class="la la-group"></i>
-                            <p class="custom-font">Management Members</p>
+                            <p class="custom-font">Management Member</p>
                         </a>
                         {{-- <a href="/member/user" class="nav-link"> --}}
                 @endif
 
                 </li>
-                <li class="nav-item">
+                <li class="nav-item ">
                     @if (Auth::user()->level === 'Admin')
                         <a href="/event" class="nav-link">
                         @else
                             <a href="/member/event" class="nav-link">
                     @endif
                     <i class="la la-calendar"></i>
-                    <p class="custom-font">Management Events</p>
+                    <p class="custom-font">Management Event</p>
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item ">
                     @if (Auth::user()->level === 'Admin')
                         <a href="/task" class="nav-link">
                         @else
                             <a href="/member/task" class="nav-link">
                     @endif
                     <i class="la la-tasks"></i>
-                    <p class="custom-font">Management Tasks</p>
-                    {{--  <span class="badge badge-count">6</span>  --}}
+                    <p class="custom-font">Management Task</p>
+                    {{-- <span class="badge badge-count">6</span>   --}}
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item ">
                     @if (Auth::user()->level === 'Admin')
                         <a href="/report" class="nav-link">
                         @else
                             <a href="/member/report" class="nav-link">
                     @endif
-                    <i class="la la-tasks"></i>
-                    <p class="custom-font">Management Reports</p>
-                    {{--  <span class="badge badge-count">6</span>  --}}
+                    <i class="bi bi-file-earmark-plus fs-5"></i>
+                    <p class="custom-font">Management Report</p>
+                    {{-- <span class="badge badge-count">6</span>  --}}
+
                     </a>
                 </li>
 
 
-                <li class="nav-item">
+                <li class="nav-item ">
                     @if (Auth::user()->level === 'Admin')
                         <a href="/detailReport" class="nav-link">
                         @else
                             <a href="/member/detailReport" class="nav-link">
                     @endif
                     <i class="la la-calendar"></i>
-                    <p class="custom-font">Management Detail Reports</p>
+                    <p class="custom-font">Management Detail</p>
                     {{-- <span class="badge badge-count">6</span> --}}
                     </a>
                 </li>

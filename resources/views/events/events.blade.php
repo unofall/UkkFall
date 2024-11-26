@@ -41,12 +41,8 @@
 
         .custom-dropdown-menu .dropdown-item:hover {
             background-color: #007bff;
-
             color: #fff;
-
         }
-
-
         .custom-dropdown-menu .dropdown-item.text:hover {
             background-color: #dc3545;
 
@@ -72,20 +68,26 @@
                     {{ session()->get('Pesan') }}</div>
             @endif
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title mx-3">Events Table</div>
-                    </div>
-                    <div class="card-body">
-                        {{--  Notif Berhasil Ditambahkan  --}}
-                        <table class="table mt-3 text-center">
-                            <div class="d-flex justify-content-end p-1">
-                                @if (Auth::user()->level === 'Admin')
-                                    <a href="/create_event" class="btn btn-primary fw-bold">Create Event</a>
-                                @elseif (Auth::user()->level === 'Member')
-                                    <a href="/member/create_event" class="btn btn-primary fw-bold">Create Event</a>
-                                @endif
+                <div class="card rounded-3 p-2">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <!-- Title -->
+                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Event</div>
+                        <!-- Filter Form -->
+                        <div class="d-flex justify-content-end p-1">
+                            @if (Auth::user()->level === 'Admin')
+                                <a href="/create_event" class="btn btn-primary fw-bold">Create Event</a>
+                            @elseif (Auth::user()->level === 'Member')
+                                <a href="/member/create_event" class="btn btn-primary fw-bold">Create Event</a>
+                            @endif
 
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table text-center">
+                            <div class="card-sub">
+                                This is the events table :
                             </div>
                             <thead>
                                 <tr>

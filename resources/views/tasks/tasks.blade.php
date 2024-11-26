@@ -3,6 +3,29 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
     <style>
+        /* Style Dropdown Filter */
+        #eventDropdown {
+            font-size: 0.9rem;
+            padding: 0.35rem;
+            padding-left: 15px;
+            background-color: #f9f9f9;
+            border-color: #ced4da;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            width: 300px
+        }
+
+        #eventDropdown:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            background-color: #fff;
+        }
+
+        #eventDropdown option {
+            font-weight: 500;
+        }
+
+        /* Style dropdown Tabel */
         .custom-dropdown-menu li a {
             font-size: 15px;
             /* Mengatur ukuran font untuk teks di dalam dropdown */
@@ -56,41 +79,51 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title mx-3">Management Task</div>
+                <div class="card rounded-3 h-12">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <!-- Title -->
+                        <div class=" fs-6 fw-bold ms-2" style="letter-spacing: 1px; word-spacing: 3px">Management Task</div>
+                        <!-- Filter Form -->
+                        <form method="GET" action="/filter" class="d-flex align-items-center mt-3">
+                            <label for="eventDropdown" class="form-label fs-6 mr-3" style="letter-spacing: 0.5px"> Filter Event : </label>
+                            <select id="eventDropdown" name="event_id" class=" form-select shadow-sm border-2"
+                                onchange="this.form.submit()">
+                                <option value="">All Task</option>
+                                @foreach ($events as $event)
+                                    <option value="{{ $event->id }}"
+                                        {{ request('event_id') == $event->id ? 'selected' : '' }}>
+                                        {{ $event->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>
+                </div>
+                <div class="card rounded-3">
                     <div class="card-body">
-                        {{-- <div class="card-sub">
-                        This is the basic table view of the ready dashboard :
-                    </div> --}}
-                    <form action="/search" method="GET" class="mb-3">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search by Event Name"
-                                value="{{ request('search') }}">
-                            <button type="submit" class="btn btn-primary">Search</button>
-                        </div>
-                    </form>
-
-                        <table class="table mt-3 text-center">
+                        <table class="table text-center">
+                            <div class="card-sub">
+                                This is the task table :
+                            </div>
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Name Event</th>
                                     <th scope="col">Name Task</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">Member</th>
                                     {{-- <th scope="col">Percentage</th> --}}
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($tasks as $key => $item)
+                                @forelse ($tasks as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->events->name }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
-                                        {{-- <td>{{ $item->percentage }}%</td> --}}
+                                        <td>{{ $item->users_id }}</td>
                                         <td>
                                             <div class="dropdown-center">
                                                 <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown"
@@ -117,30 +150,26 @@
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        {{-- <a href="/subtask/{{ $item->id }}" class="dropdown-item"
-                                                            title="View Sub Task">
-                                                            <i class="bi bi-list-task me-2"></i> View Sub Task
-                                                        </a> --}}
                                                         @elseif (Auth::user()->level === 'Member')
-                                                        <a href="/member/addmember/{{ $item->id }}"
-                                                            class="dropdown-item" title="Add Member">
-                                                            <i class="bi bi-person-plus me-2"></i> Add Member
-                                                        </a>
+                                                            <a href="/member/addmember/{{ $item->id }}"
+                                                                class="dropdown-item" title="Add Member">
+                                                                <i class="bi bi-person-plus me-2"></i> Add Member
+                                                            </a>
                                                         @endif
 
                                                     </li>
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/subtask/{{ $item->id }}" class="dropdown-item"
-                                                            title="View Sub Task">
-                                                            <i class="bi bi-list-task me-2"></i> View Sub Task
-                                                        </a>
+                                                            <a href="/subtask/{{ $item->id }}" class="dropdown-item"
+                                                                title="View Sub Task">
+                                                                <i class="bi bi-list-task me-2"></i> View Sub Task
+                                                            </a>
                                                         @elseif (Auth::user()->level === 'Member')
-                                                        <a href="/member/subtask/{{ $item->id }}" class="dropdown-item"
-                                                            title="View Sub Task">
-                                                            <i class="bi bi-list-task me-2"></i> View Sub Task
-                                                        </a>
+                                                            <a href="/member/subtask/{{ $item->id }}"
+                                                                class="dropdown-item" title="View Sub Task">
+                                                                <i class="bi bi-list-task me-2"></i> View Sub Task
+                                                            </a>
                                                         @endif
 
                                                     </li>
@@ -172,21 +201,20 @@
                                                             </a>
                                                         @endif
                                                     </li>
-
                                                 </ul>
                                             </div>
-
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center ">No tasks found</td>
+
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
-
-
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

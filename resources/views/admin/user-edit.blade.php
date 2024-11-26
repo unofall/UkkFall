@@ -12,7 +12,9 @@
                         <div class="card-title">Form Control Styles</div>
                     </div>
                     <div class="card-body">
-                        <form action="/edit/{{ $user->id }}" method="post">
+                        <form @if (Auth::user()->level === 'Admin') action="/edit/{{ $user->id }}"
+                            @elseif (Auth::user()->level === 'Member')
+                            action="/member/profupdate/{{ Auth::user()->id }}" @endif method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="squareInput">Name</label>

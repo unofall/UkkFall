@@ -32,7 +32,7 @@
                                 @error('datetime')
                                     <span class="text-danger">Date cannot be empty</span>
                                 @enderror
-                            </div> 
+                            </div>
                             <div id="" class="form-group">
                                  <label for="linkLabel" id="linkLabel">Link File</label>
                                   <input type="text" class="form-control input-square" name="link_file" id="linkInput" placeholder="Input Link">

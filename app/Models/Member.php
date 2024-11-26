@@ -13,8 +13,8 @@ class Member extends Model
 
     function users(){
         return $this->belongsTo(User::class,'user_id');
-    }
-    function tasks(){
+        }
+        function tasks(){
         return $this->belongsTo(Task::class,'task_id');
     }
     function events(){

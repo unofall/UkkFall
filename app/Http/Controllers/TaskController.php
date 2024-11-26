@@ -12,24 +12,42 @@ class TaskController extends Controller
     function showtask()
     {
         $data['task'] = Task::all();
+        $data['events'] = Event::all();
         $tasks = Task::whereNull('task_idtasks')->with('parentTask')->get();
 
         return view('tasks.tasks', $data, compact('tasks'));
     }
 
-    function search(Request $request){
-          // Ambil parameter pencarian dari input
-    $search = $request->input('search');
+    function selectEvents(Request $request){
+        $eventId = $request->input('event_id');
 
-    // Query tasks sesuai dengan pencarian nama event
-    $tasks = Task::whereHas('events', function ($query) use ($search) {
-        if ($search) {
-            $query->where('name', 'LIKE', '%' . $search . '%');
-        }
-    })->with('events')->get();
+        // Query semua event untuk dropdown
+        $events = Event::all();
 
-    return view('tasks.tasks', compact('tasks', 'search'));
+        // Filter task berdasarkan event jika event_id diberikan
+        $tasks = Task::with('events')
+            ->when($eventId, function ($query) use ($eventId) {
+                $query->where('events_id', $eventId);
+            })
+            ->get();
+
+        return view('tasks.tasks', compact('tasks', 'events'));
     }
+
+    // function search(Request $request){
+    //       // Ambil parameter pencarian dari input
+    // $search = $request->input('search');
+
+    // // Query tasks sesuai dengan pencarian nama event
+    // $tasks = Task::with('events')
+    //     ->where('name', 'like', '%' . $search . '%') // Filter berdasarkan nama task
+    //     ->orWhereHas('events', function ($query) use ($search) {
+    //         $query->where('name', 'like', '%' . $search . '%'); // Filter berdasarkan nama event
+    //     })
+    //     ->get();
+
+    // return view('tasks.tasks', compact('tasks', 'search'));
+    // }
     //   function completeTask($taskId){
     //         $task = Task::findorFail($taskId);
     //         $task->update(['percentage' => 100]);
@@ -71,7 +89,6 @@ class TaskController extends Controller
     function addtask(Request $request)
     {
         $data['event'] = Event::find($request->id);
-
         return view('tasks.add-task', $data);
     }
 

@@ -2,54 +2,63 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
-<style>
-    .custom-dropdown-menu {
-        min-width: 60px; /* Anda bisa mengatur ukuran sesuai kebutuhan */
-    }
-    .custom-dropdown-menu li a {
-        font-size: 15px; /* Mengatur ukuran font untuk teks di dalam dropdown */
-        margin: 40px 10px 10px 20px; /* Mengurangi padding untuk setiap item */
-        text-decoration: none;
-        color: black;
-        font-weight: 600
-    }
-</style>
+    <style>
+        .custom-dropdown-menu {
+            min-width: 60px;
+            /* Anda bisa mengatur ukuran sesuai kebutuhan */
+        }
+
+        .custom-dropdown-menu li a {
+            font-size: 15px;
+            /* Mengatur ukuran font untuk teks di dalam dropdown */
+            margin: 40px 10px 10px 20px;
+            /* Mengurangi padding untuk setiap item */
+            text-decoration: none;
+            color: black;
+            font-weight: 600
+        }
+    </style>
     <div class="main-panel">
         <div class="content">
+            @if (session()->has('Pesan'))
+                <div class="alert alert-danger" style="width: 100% ; ">
+                    {{ session()->get('Pesan') }}
+                </div>
+            @endif
+
+            {{--  Notif Berhasil ditambahkann  --}}
+            @if (session()->has('Sukses'))
+                <div class="alert alert-success" style="width: 100% ; ">
+                    {{ session()->get('Sukses') }}
+                </div>
+            @endif
+            {{--  Notif Berhasil Diubah  --}}
+
+            @if (session()->has('pesan'))
+                <div class="alert alert-warning" style="width: 100% ; ">
+                    {{ session()->get('pesan') }}
+                </div>
+            @endif
+
+            @if (session()->has('Delete'))
+                <div class="alert alert-danger" style="width: 100% ; ">
+                    {{ session()->get('Delete') }}
+                </div>
+            @endif
+
+
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title mx-3">Members Table</div>
+                <div class="card rounded-3 h-12" style="padding: 20px 10px">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Member</div>
                     </div>
+                </div>
+                <div class="card">
                     <div class="card-body">
-                        @if (session()->has('Pesan'))
-                            <div class="alert alert-danger" style="width: 100% ; ">
-                                {{ session()->get('Pesan') }}
+                        <table class="table text-center">
+                            <div class="card-sub">
+                                This is the task table :
                             </div>
-                        @endif
-
-                        {{--  Notif Berhasil ditambahkann  --}}
-                        @if (session()->has('Sukses'))
-                            <div class="alert alert-success" style="width: 100% ; ">
-                                {{ session()->get('Sukses') }}
-                            </div>
-                        @endif
-                        {{--  Notif Berhasil Diubah  --}}
-
-                        @if (session()->has('pesan'))
-                            <div class="alert alert-warning" style="width: 100% ; ">
-                                {{ session()->get('pesan') }}
-                            </div>
-                        @endif
-
-                        @if (session()->has('Delete'))
-                            <div class="alert alert-danger" style="width: 100% ; ">
-                                {{ session()->get('Delete') }}
-                            </div>
-                        @endif
-
-
-                        <table class="table mt-3 text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
@@ -81,7 +90,8 @@
                                                             Member</a>
                                                     </li>
                                                     <li>
-                                                        <a href="/member/delete/{{ $item->id }}" title="Delete Member"> Delete
+                                                        <a href="/member/delete/{{ $item->id }}" title="Delete Member">
+                                                            Delete
                                                             Member
                                                         </a>
                                                     </li>

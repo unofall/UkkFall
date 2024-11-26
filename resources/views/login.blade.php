@@ -5,90 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href={{ asset('assets/css/styles.min.css') }}>
-    {{--  <style>
-        :root{
-            --color-main: rgb(180, 160, 121);
-        }
+   <style>
+    .body {
+   background-image: url('img/bg.jpg');
+}
 
-        body{
-            background-color: var(--color-main);
-        }
+.card {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 
-        .img-login{
-            width: 100%;
-        }
-    </style>  --}}
+.card-body {
+    padding: 3rem;
+    border-radius: 1rem;
+}
+
+h3 {
+    color: #333;
+    font-weight: 700;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.text-primary {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.text-primary:hover {
+    text-decoration: underline;
+}
+
+   </style>
 </head>
 <body>
-
-    {{--  <div class=" text-white  justify-content-center p-4">
-        <h1 class="">Name</h1>
-            <div class="card  col-md-5 p-5 rounded text-dark mt-5 ">
-                <form action="/auth" class="w-100" method="post">
-                    @csrf
-                    <div class="mb-4 text-center">
-                        <h3>Login</h3>
-                        Belajar Bimbingan Online, Bersama kita anda Cerdas.
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center" style="background-image: url('/assets/img/bg.jpg')">
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+                {{-- <div class="col-md-4">
+                    <img src="{{ asset('assets/img/member.jpg') }}" alt="" srcset="">
+                </div> --}}
+                <div class="col-md-8 col-lg-6 col-xxl-4">
+                    @if (session()->has('pesan'))
+                        <div class="alert alert-danger text-center" style="width: 100%;">
+                            {{ session()->get('pesan') }}
+                        </div>
+                    @endif
+                    <div class="card shadow-lg border-0 rounded-3">
+                        <div class="card-body p-5">
+                            <h3 class="text-center fw-bold mb-4">Welcome Back</h3>
+                            <p class="text-center text-muted mb-4">Please login to your account</p>
+                            <form method="POST" action="/auth">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <input type="email" name="email" class="form-control form-control-lg rounded-3"
+                                        id="email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-bold">Password</label>
+                                    <input type="password" name="password" class="form-control form-control-lg rounded-3"
+                                        id="password" placeholder="Enter your password" required>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="form-check text-dark">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+                                        <label class="form-check-label" for="rememberMe">Remember Me</label>
+                                    </div>
+                                    <a class="text-primary fw-bold" href="#">Forgot Password?</a>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 py-3 rounded-3">
+                                    Sign In
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
-                    <a href="/register" class="btn btn-warning w-100">Register</a>
-                </form>
+                    <p class="text-center text-muted mt-4">
+                        Don't have an account? <a href="#" class="text-primary fw-bold">Create one</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>  --}}
-    {{--  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">  --}}
-    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-      <div class="d-flex align-items-center justify-content-center w-100">
-        <div class="row justify-content-center w-100">
-            <div class="col-md-8 col-lg-6 col-xxl-3">
-                @if (session()->has('pesan'))
-                     <div class="alert alert-danger text-center" style="width: 100% ; ">
-                 {{ session()->get('pesan') }}</div>
-             @endif
-                <div class="card mb-0">
-                    <div class="card-body">
-               <h3 class="text-center p-3">Login</h3>
-                <form method="POST" action="/auth">
-                    @csrf
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  </div>
-                  <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                  </div>
-                  <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div class="form-check">
-                      <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
-                      <label class="form-check-label text-dark" for="flexCheckChecked">
-                        Remember this Device
-                      </label>
-                    </div>
-                    <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
-                  </div>
-                  <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >Sign In</button>
-                  {{--  <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
-                    <a class="text-primary fw-bold ms-2" href="./authentication-register.html">Create an account</a>
-                  </div>  --}}
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
 </body>

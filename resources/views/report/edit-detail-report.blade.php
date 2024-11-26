@@ -25,7 +25,7 @@
                             @enderror
                             </div>
 
-                            <input type="hidden" name="report_id" value="{{ $report->id }}">
+                            <input type="hidden" name="reports_id" value="{{ $report->id }}">
                             <div class="form-group">
                                 <label for="squareInput">Date Time</label>
                                 <input type="datetime-local" class="form-control input-square" id="squareInput" name="datetime">

@@ -15,7 +15,7 @@ class Task extends Model
         return $this->belongsTo(Event::class,'events_id');
     }
     function members(){
-        return $this->belongsTo(Member::class, 'task_id');
+        return $this->belongsTo(Member::class, 'task_id'.'user_id');
     }
 
     function parentTask(){
