@@ -38,7 +38,7 @@
                                 <input type="datetime-local" class="form-control input-square" id="squareInput"
                                     name="date" placeholder="Input Date">
                                 @error('date')
-                                    <span class="text-danger">Date cannot be empty</span>
+                                    <span class="text-danger">Date must be current</span>
                                 @enderror
                             </div>
                             @if (auth()->user()->level === 'Admin')

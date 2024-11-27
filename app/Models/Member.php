@@ -11,13 +11,16 @@ class Member extends Model
 
     protected $guarded = [];
 
-    function users(){
-        return $this->belongsTo(User::class,'user_id');
-        }
-        function tasks(){
-        return $this->belongsTo(Task::class,'task_id');
+    function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
-    function events(){
-        return $this->belongsTo(Event::class,'event_id');
+    function tasks()
+    {
+        return $this->belongsTo(Task::class, 'task_id');
+    }
+    function events()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
     }
 }

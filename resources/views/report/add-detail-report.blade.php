@@ -15,7 +15,9 @@
                         <div class="card-title">Create Detail Report</div>
                     </div>
                     <div class="card-body">
-                        <form action="/addDetailReport/{{ $report->id }}" method="POST">
+                        <form    @if (Auth::user()->level === 'Admin')  action="/addDetailReport/{{ $report->id }}"
+                            @elseif (Auth::user()->level === 'Member')
+                            action="/member/addDetailReport/{{ $report->id }}" @endif method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="squareInput">Description</label>

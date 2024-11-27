@@ -65,12 +65,13 @@
                         <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Sub Task</div>
                         <div class="d-flex justify-content-end p-1">
                             @if (Auth::user()->level === 'Admin')
-                            <a href="/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
-                                Task</a>
-                        @elseif (Auth::user()->level === 'Member')
-                        <a href="/member/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
-                            Task</a>
-                        @endif
+                                <a href="/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create Sub
+                                    Task</a>
+                            @elseif (Auth::user()->level === 'Member')
+                                <a href="/member/create-subtask/{{ $task->id }}" class="btn btn-primary fw-bold">Create
+                                    Sub
+                                    Task</a>
+                            @endif
 
                         </div>
                     </div>
@@ -98,11 +99,13 @@
                                         <td>{{ $key += 1 }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
-                                        <td>{{ $item->percentage }}%</td>
+                                        <td>
+                                            <div style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+                                                <div style="width: {{ $item->calculateSubTaskPercentage() }}%; background-color: {{ $item->calculateSubTaskPercentage() > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;"></div>
+                                            </div>
+                                            <span style="font-size: 12px; color: #555;">{{ number_format($item->calculateSubTaskPercentage(), 2) }}%</span>
+                                        </td>
 
-                                        {{-- <td>
-                                        <span style="color: white; background-color: {{ $item->status == 'proses' ? 'red' : ($item->status == 'selesai' ? 'green' : 'black') }}; padding: 5px; border-radius: 5px;"> {{ $item->status }} </span>
-                                    </td> --}}
                                         <td>
                                             <div class="dropdown-center">
                                                 <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown"
@@ -131,37 +134,37 @@
                                                                 <i class="bi bi-eye me-2"></i> View Sub Sub Task
                                                             </a>
                                                         @elseif (Auth::user()->level === 'Member')
-                                                            <a href="/member/subSubtask/{{ $item->id }}" class="dropdown-item"
-                                                                title="View Sub Task">
+                                                            <a href="/member/subSubtask/{{ $item->id }}"
+                                                                class="dropdown-item" title="View Sub Task">
                                                                 <i class="bi bi-eye me-2"></i> View Sub Sub Task
                                                             </a>
                                                         @endif
                                                     </li>
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/update-subtask/{{ $item->id }}" class="dropdown-item"
-                                                            title="Edit Sub Task">
-                                                            <i class="bi bi-pencil-square me-2"></i> Edit Sub Task
-                                                        </a>
+                                                            <a href="/update-subtask/{{ $item->id }}"
+                                                                class="dropdown-item" title="Edit Sub Task">
+                                                                <i class="bi bi-pencil-square me-2"></i> Edit Sub Task
+                                                            </a>
                                                         @elseif (Auth::user()->level === 'Member')
-                                                        <a href="/member/update-subtask/{{ $item->id }}" class="dropdown-item"
-                                                            title="Edit Sub Task">
-                                                            <i class="bi bi-pencil-square me-2"></i> Edit Sub Task
-                                                        </a>
+                                                            <a href="/member/update-subtask/{{ $item->id }}"
+                                                                class="dropdown-item" title="Edit Sub Task">
+                                                                <i class="bi bi-pencil-square me-2"></i> Edit Sub Task
+                                                            </a>
                                                         @endif
                                                     </li>
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/deletesubtask/{{ $item->id }}"
-                                                            class="dropdown-item text" title="Delete Sub Task">
-                                                            <i class="bi bi-trash me-2"></i> Delete Sub Task
-                                                        </a>
+                                                            <a href="/deletesubtask/{{ $item->id }}"
+                                                                class="dropdown-item text" title="Delete Sub Task">
+                                                                <i class="bi bi-trash me-2"></i> Delete Sub Task
+                                                            </a>
                                                         @elseif (Auth::user()->level === 'Member')
-                                                        <a href="/member/deletesubtask/{{ $item->id }}"
-                                                            class="dropdown-item text" title="Delete Sub Task">
-                                                            <i class="bi bi-trash me-2"></i> Delete Sub Task
-                                                        </a>
+                                                            <a href="/member/deletesubtask/{{ $item->id }}"
+                                                                class="dropdown-item text" title="Delete Sub Task">
+                                                                <i class="bi bi-trash me-2"></i> Delete Sub Task
+                                                            </a>
                                                         @endif
 
                                                     </li>

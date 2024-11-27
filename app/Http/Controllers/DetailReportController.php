@@ -6,6 +6,7 @@ use App\Models\Detail_Report;
 use App\Models\Report;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DetailReportController extends Controller
 {
@@ -68,10 +69,14 @@ class DetailReportController extends Controller
             //     }
             // }
 
-            return redirect('detailReport')->with('Sukses', 'Detail Report Berhasil Ditambahkan');
-        } else {
-            return redirect()->back()->with('Error', 'Data Tidak Lengkap');
+            if (Auth::user()->level === 'Admin') {
+                return redirect('/detailReport')->with('Sukses', 'Detail Report Berhasil Ditambahkan');
+            } elseif (Auth::user()->level === 'Member') {
+                return redirect('/member/detailReport')->with('Sukses', 'Detail Report Berhasil Ditambahkan');
+
+            }
         }
+            return redirect()->back()->with('Error', 'Data Tidak Lengkap');
     }
 
 
@@ -83,7 +88,7 @@ class DetailReportController extends Controller
     }
 
     function update(Request $request)
-{
+    {
     $detail = $request->validate([
         'description' => ['required'],
         'datetime' => ['required', 'date'],
@@ -124,29 +129,36 @@ class DetailReportController extends Controller
         //     $report->update(['percentage' => 100]);
         // }
 
-        return redirect('detailReport')->with('update', 'Detail Report Berhasil Diubah');
-    } else {
-        return redirect()->back()->with('error', 'Data Tidak Lengkap');
-    }
-}
+         if (Auth::user()->level === 'Admin') {
+                return redirect('/detailReport')->with('Sukses', 'Detail Report Berhasil Ditambahkan');
+            } elseif (Auth::user()->level === 'Member') {
+                return redirect('/member/detailReport')->with('Sukses', 'Detail Report Berhasil Ditambahkan');
+            }
 
+        return redirect()->back()->with('error', 'Data Tidak Lengkap');
+        }
+    }
 
     function delete(Request $request)
-    {
-        $delete = Detail_Report::find($request->id);
-        if ($delete) {
-            $reportId = $delete->reports_id;
+        {
+            $delete = Detail_Report::find($request->id);
+            if ($delete) {
+                $reportId = $delete->reports_id;
 
-            Detail_Report::where('id', $request->id)->delete();
+                Detail_Report::where('id', $request->id)->delete();
 
-            $report = Report::find($reportId);
+                $report = Report::find($reportId);
 
-            if ($report) {
-                $report->percentage = 0;
-                $report->save();
+                if ($report) {
+                    $report->percentage = 0;
+                    $report->save();
+                }
+                if (Auth::user()->level === 'Admin') {
+                    return redirect('/detailReport')->with('Delete', 'Detail Report Berhasil Dihapus');
+                } elseif (Auth::user()->level === 'Member') {
+                    return redirect('/member/detailReport')->with('Delete', 'Detail Report Berhasil Dihapus');
+                }
             }
-            return redirect('/detailReport')->with('Delete', 'Detail Report Berhasil Dihapus');
+            return redirect()->back();
         }
-        return redirect()->back();
-    }
 }

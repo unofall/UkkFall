@@ -58,8 +58,7 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title"><a href="/subtask/{{ $task->id }}" style="color: black">Management Task /
-                                {{ $task->name }}</a></div>
+
                     </div>
                     <div class="card-body">
                         {{-- <div class="card-sub">
@@ -81,7 +80,7 @@
                                     <th scope="col">No.</th>
                                     <th scope="col">Sub Sub Task</th>
                                     <th scope="col">Deskripsi</th>
-                                    <th scope="col">Persentase</th>
+                                    {{-- <th scope="col">Persentase</th> --}}
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -91,7 +90,13 @@
                                         <td>{{ $key += 1 }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
-                                        <td>{{ $item->percentage }}%</td>
+                                        {{-- <td> <div class="progress">
+                                            <div class="progress-bar" style="width: {{ $item->percentage }}%"
+                                                aria-valuenow="{{ $item->percentage }}"
+                                                aria-valuemin="0" aria-valuemax="100">
+                                                {{ $item->percentage }}%
+                                            </div>
+                                        </div></td> --}}
                                         <td>
                                             <div class="dropdown-center">
                                                 <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown"

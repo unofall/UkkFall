@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    function mytask(Request $request)
+    {
+        // Assuming you have a logged-in user who is a member
+        $userId = auth()->id(); // Get the current logged-in user's ID
+        // $data['events'] = Event::all();
+        // Retrieve tasks assigned to the user by the admin
+        $tasks = Task::where('users_id', $userId) // assuming 'assigned_to' field links to the user
+            ->whereNull('task_idtasks') // to ensure it's a top-level task (optional)
+            ->with('parentTask') // if you want to load parent task relationships
+            ->get();
+
+        // Pass the tasks to the view
+        return view('member.mytask', compact('tasks'));
+    }
+
     function showtask()
     {
         $data['task'] = Task::all();
@@ -18,7 +33,8 @@ class TaskController extends Controller
         return view('tasks.tasks', $data, compact('tasks'));
     }
 
-    function selectEvents(Request $request){
+    function selectEvents(Request $request)
+    {
         $eventId = $request->input('event_id');
 
         // Query semua event untuk dropdown
@@ -34,57 +50,6 @@ class TaskController extends Controller
         return view('tasks.tasks', compact('tasks', 'events'));
     }
 
-    // function search(Request $request){
-    //       // Ambil parameter pencarian dari input
-    // $search = $request->input('search');
-
-    // // Query tasks sesuai dengan pencarian nama event
-    // $tasks = Task::with('events')
-    //     ->where('name', 'like', '%' . $search . '%') // Filter berdasarkan nama task
-    //     ->orWhereHas('events', function ($query) use ($search) {
-    //         $query->where('name', 'like', '%' . $search . '%'); // Filter berdasarkan nama event
-    //     })
-    //     ->get();
-
-    // return view('tasks.tasks', compact('tasks', 'search'));
-    // }
-    //   function completeTask($taskId){
-    //         $task = Task::findorFail($taskId);
-    //         $task->update(['percentage' => 100]);
-
-    //         $event = $task->event;
-    //         $event->calculated_percentage = $this->calculateEventPercentage($event);
-    //         $event->update(['percentage' => $event->calculated_percentage]);
-    //         return redirect()->back()->with('success', 'Task marked as complete');
-    //     }
-
-    //     private function calculateEventPercentage($event){
-
-    //         $totalTasks = 0;
-    //         $completedTasks = 0;
-
-    //         foreach ($event->tasks as $task) {
-    //             $totalTasks++;
-    //             if ($task->percentage == 100) {
-    //                 $completedTasks++;
-    //             }
-
-    //             foreach ($task->subTasks as $subtask ) {
-    //                 $totalTasks++;
-    //                 if ($subtask->percentage == 100) {
-    //                     $completedTasks++;
-    //                 }
-
-    //                 foreach ($task->subSubTasks as $subsubtask) {
-    //                     $totalTasks++;
-    //                     if ($subsubtask->percentage == 100) {
-    //                         $completedTasks++;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         return ($totalTasks > 0) ? ($completedTasks / $totalTasks) * 100 : 0;
-    //     }
 
     function addtask(Request $request)
     {
@@ -208,11 +173,12 @@ class TaskController extends Controller
         return redirect()->back()->with('Error', 'Gagal');
     }
 
-    // function deletesubtask(Request $request){
-    //     Task::find($request->id);
-    //     Task::where('id', $request->id)->delete();
-    //     return redirect('/subtask/'.$request->id)->with('delete', 'Berhasil Dihapus');
-    // }
+    function deletesubtask(Request $request)
+    {
+        Task::find($request->id);
+        Task::where('id', $request->id)->delete();
+        return redirect('/task')->with('delete', 'Berhasil Dihapus');
+    }
 
     function showsubSubtask(Request $request)
     {

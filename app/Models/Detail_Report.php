@@ -15,5 +15,7 @@ class Detail_Report extends Model
         return $this->belongsTo(Report::class,'reports_id');
     }
 
+    
+
 
 }

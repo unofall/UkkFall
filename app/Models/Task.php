@@ -11,27 +11,91 @@ class Task extends Model
 
     protected $guarded = [];
 
-    function events(){
-        return $this->belongsTo(Event::class,'events_id');
+
+    function events()
+    {
+        return $this->belongsTo(Event::class, 'events_id');
     }
-    function members(){
-        return $this->belongsTo(Member::class, 'task_id'.'user_id');
+    function members()
+    {
+        return $this->belongsTo(Member::class, 'task_id' . 'user_id');
     }
 
-    function parentTask(){
-        return $this->belongsTo(Task::class,'task_idtasks');
+    function parentTask()
+    {
+        return $this->belongsTo(Task::class, 'task_idtasks');
     }
 
-    function subTasks(){
-        return $this->hasMany(Task::class,'task_idtasks');
+    function subTasks()
+    {
+        return $this->hasMany(Task::class, 'task_idtasks');
     }
 
-    function subSubTasks(){
-        return $this->hasMany(Task::class,'task_idtasks');
+    function subSubTasks()
+    {
+        return $this->hasMany(Task::class, 'task_idtasks');
     }
 
-    function reports(){
+    function reports()
+    {
         return $this->hasMany(Report::class, 'task_idtasks');
+    }
+
+    public function calculatePercentage()
+    {
+        // Ambil semua subtask yang terkait dengan task ini
+        $subtasks = $this->subTasks()->get();
+
+        // Jika tidak ada subtask, periksa apakah task memiliki laporan
+        if ($subtasks->count() == 0) {
+            // Jika task memiliki laporan dengan persentase 100, kembalikan 100
+            if ($this->reports()->where('percentage', 100)->exists()) {
+                return 100;
+            }
+            return 0;
+        }
+
+        // Hitung persentase untuk masing-masing subtask berdasarkan laporan dari sub-subtask
+        $subtaskPercentages = $subtasks->map(function ($subtask) {
+            return $subtask->calculateSubTaskPercentage();
+        });
+
+        // Hitung rata-rata persentase untuk semua subtask
+        $averagePercentage = $subtaskPercentages->avg();
+
+        // Update persentase pada task ini
+        $this->update(['percentage' => $averagePercentage]);
+
+        return $averagePercentage ?? 0;
+    }
+
+
+    public function calculateSubTaskPercentage()
+    {
+        // Ambil semua sub-subtask yang terkait dengan subtask ini
+        $subSubtasks = $this->subSubTasks()->get();
+
+        // Jika tidak ada sub-subtask, periksa apakah subtask memiliki laporan
+        if ($subSubtasks->count() == 0) {
+            // Jika subtask memiliki laporan dengan persentase 100, kembalikan 100
+            if ($this->reports()->where('percentage', 100)->exists()) {
+                return 100;
+            }
+            return 0;
+        }
+
+        // Hitung jumlah sub-subtask yang memiliki laporan dengan persentase 100%
+        $completedSubSubtasks = $subSubtasks->filter(function ($subSubtask) {
+            return $subSubtask->reports()->where('percentage', 100)->exists();
+        });
+
+        // Hitung persentase berdasarkan jumlah sub-subtask yang selesai dibandingkan total sub-subtask
+        $percentage = ($completedSubSubtasks->count() / $subSubtasks->count()) * 100;
+
+        // Update persentase pada subtask ini
+        $this->update(['percentage' => $percentage]);
+
+        return $percentage;
     }
 
 

@@ -10,16 +10,16 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExcelController extends Controller
 {
-    function export(Request $request){
+    function export(Request $request)
+    {
         // Ambil data task, subtask, dan subsubtask
         $tasks = Task::with('subtasks.subtasks')->whereNull('task_idtasks')->get();
-        $report = Detail_Report::where('id', $request->task_id)->get();
-
 
         // Membuat objek Spreadsheet baru
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        // $sheet->setCellValue('A1', 'ID');
+
+        // Menambahkan header kolom
         $sheet->setCellValue('A1', 'Nama Task');
         $sheet->setCellValue('B1', 'Deskripsi Task');
         $sheet->setCellValue('C1', 'Parent Task');
@@ -27,14 +27,14 @@ class ExcelController extends Controller
         $sheet->setCellValue('E1', 'Deskripsi Subtask');
         $sheet->setCellValue('F1', 'Nama Subsubtask');
         $sheet->setCellValue('G1', 'Deskripsi Subsubtask');
-        // $sheet->setCellValue('F1', 'Link Laporan');
+        $sheet->setCellValue('H1', 'Laporan');
 
+        // Memberikan style pada header
         $headerStyle = [
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
                 'size' => 12,
-                'name' => 'Arial',
             ],
             'alignment' => [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
@@ -44,130 +44,35 @@ class ExcelController extends Controller
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                 'startColor' => ['rgb' => '4CAF50'],
             ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
         ];
 
-        $sheet->getStyle('A1:G1')->applyFromArray($headerStyle);
+        $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
+
+        // Menyesuaikan lebar kolom
+        foreach (range('A', 'H') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
 
         // Menambahkan data tasks, subtasks, dan subsubtasks
         $row = 2;
-
-        // foreach ($tasks as $task) {
-        //     // Menambahkan task utama
-        //     $sheet->setCellValue('A' . $row, $task->name);
-        //     $sheet->setCellValue('B' . $row, $task->description);
-        //     $sheet->setCellValue('C' . $row, null);
-        //     $sheet->setCellValue('D' . $row, null);
-        //     $sheet->setCellValue('E' . $row, null);
-        //     $sheet->setCellValue('F' . $row, null);
-        //     $sheet->setCellValue('G' . $row, null);
-
-        //     // Hyperlink untuk task utama
-        //     $taskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $task->id;
-        //     $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-        //     $sheet
-        //         ->getCell('H' . $row)
-        //         ->getHyperlink()
-        //         ->setUrl($taskUrl);
-        //     $sheet
-        //         ->getStyle('H' . $row)
-        //         ->getFont()
-        //         ->getColor()
-        //         ->setRGB('0000FF'); // Warna biru
-        //     $sheet
-        //         ->getStyle('H' . $row)
-        //         ->getFont()
-        //         ->setUnderline(true);
-
-        //     $row++;
-
-        //     // Menambahkan subtasks
-        //     foreach ($task->subtasks as $subtask) {
-        //         $sheet->setCellValue('A' . $row, $subtask->name);
-        //         $sheet->setCellValue('B' . $row, $subtask->description);
-        //         $sheet->setCellValue('C' . $row, $task->name); // Parent Task
-        //         $sheet->setCellValue('D' . $row, $subtask->name);
-        //         $sheet->setCellValue('E' . $row, $subtask->description);
-        //         $sheet->setCellValue('F' . $row, null);
-        //         $sheet->setCellValue('G' . $row, null);
-
-        //         // Hyperlink untuk subtask
-        //         $subtaskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $subtask->id;
-        //         $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-        //         $sheet
-        //             ->getCell('H' . $row)
-        //             ->getHyperlink()
-        //             ->setUrl($subtaskUrl);
-        //         $sheet
-        //             ->getStyle('H' . $row)
-        //             ->getFont()
-        //             ->getColor()
-        //             ->setRGB('0000FF'); // Warna biru
-        //         $sheet
-        //             ->getStyle('H' . $row)
-        //             ->getFont()
-        //             ->setUnderline(true);
-
-        //         $row++;
-
-        //         // Menambahkan subsubtasks
-        //         foreach ($subtask->subtasks as $subsubtask) {
-        //             $sheet->setCellValue('A' . $row, $subsubtask->name);
-        //             $sheet->setCellValue('B' . $row, $subsubtask->description);
-        //             $sheet->setCellValue('C' . $row, $task->name); // Parent Task
-        //             $sheet->setCellValue('D' . $row, $subtask->name); // Subtask
-        //             $sheet->setCellValue('E' . $row, $subtask->description);
-        //             $sheet->setCellValue('F' . $row, $subsubtask->name);
-        //             $sheet->setCellValue('G' . $row, $subsubtask->description);
-
-        //             // Hyperlink untuk subsubtask
-        //             $subsubtaskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $subsubtask->id;
-        //             $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-        //             $sheet
-        //                 ->getCell('H' . $row)
-        //                 ->getHyperlink()
-        //                 ->setUrl($subsubtaskUrl);
-        //             $sheet
-        //                 ->getStyle('H' . $row)
-        //                 ->getFont()
-        //                 ->getColor()
-        //                 ->setRGB('0000FF'); // Warna biru
-        //             $sheet
-        //                 ->getStyle('H' . $row)
-        //                 ->getFont()
-        //                 ->setUnderline(true);
-
-        //             $row++;
-        //         }
-        //     }
-        // }
-
         foreach ($tasks as $task) {
             // Menambahkan task utama
             $sheet->setCellValue('A' . $row, $task->name);
             $sheet->setCellValue('B' . $row, $task->description);
-            $sheet->setCellValue('C' . $row, null);
-            $sheet->setCellValue('D' . $row, null);
-            $sheet->setCellValue('E' . $row, null);
-            $sheet->setCellValue('F' . $row, null);
-            $sheet->setCellValue('G' . $row, null);
 
-            // Cek apakah task memiliki laporan
+            // Tambahkan hyperlink laporan jika tersedia
             if ($task->reports->isNotEmpty()) {
-                $taskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $task->reports->first()->id;
+                $taskUrl = 'http://127.0.0.1:8000/detailReport/' . $task->reports->first()->id;
                 $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-                $sheet
-                    ->getCell('H' . $row)
-                    ->getHyperlink()
-                    ->setUrl($taskUrl);
-                $sheet
-                    ->getStyle('H' . $row)
-                    ->getFont()
-                    ->getColor()
-                    ->setRGB('0000FF'); // Warna biru
-                $sheet
-                    ->getStyle('H' . $row)
-                    ->getFont()
-                    ->setUnderline(true);
+                $sheet->getCell('H' . $row)->getHyperlink()->setUrl($taskUrl);
+                $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');
+                $sheet->getStyle('H' . $row)->getFont()->setUnderline(true);
             } else {
                 $sheet->setCellValue('H' . $row, 'Belum Ada Laporan');
             }
@@ -176,31 +81,17 @@ class ExcelController extends Controller
 
             // Menambahkan subtasks
             foreach ($task->subtasks as $subtask) {
-                $sheet->setCellValue('A' . $row, $subtask->name);
-                $sheet->setCellValue('B' . $row, $subtask->description);
-                $sheet->setCellValue('C' . $row, $task->name); // Parent Task
+                $sheet->setCellValue('C' . $row, $task->name);
                 $sheet->setCellValue('D' . $row, $subtask->name);
                 $sheet->setCellValue('E' . $row, $subtask->description);
-                $sheet->setCellValue('F' . $row, null);
-                $sheet->setCellValue('G' . $row, null);
 
-                // Cek apakah subtask memiliki laporan
+                // Tambahkan hyperlink laporan jika tersedia
                 if ($subtask->reports->isNotEmpty()) {
-                    $subtaskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $subtask->reports->first()->id;
+                    $subtaskUrl = 'http://127.0.0.1:8000/detailReport/' . $subtask->reports->first()->id;
                     $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-                    $sheet
-                        ->getCell('H' . $row)
-                        ->getHyperlink()
-                        ->setUrl($subtaskUrl);
-                    $sheet
-                        ->getStyle('H' . $row)
-                        ->getFont()
-                        ->getColor()
-                        ->setRGB('0000FF'); // Warna biru
-                    $sheet
-                        ->getStyle('H' . $row)
-                        ->getFont()
-                        ->setUnderline(true);
+                    $sheet->getCell('H' . $row)->getHyperlink()->setUrl($subtaskUrl);
+                    $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');
+                    $sheet->getStyle('H' . $row)->getFont()->setUnderline(true);
                 } else {
                     $sheet->setCellValue('H' . $row, 'Belum Ada Laporan');
                 }
@@ -209,31 +100,18 @@ class ExcelController extends Controller
 
                 // Menambahkan subsubtasks
                 foreach ($subtask->subtasks as $subsubtask) {
-                    $sheet->setCellValue('A' . $row, $subsubtask->name);
-                    $sheet->setCellValue('B' . $row, $subsubtask->description);
-                    $sheet->setCellValue('C' . $row, $task->name); // Parent Task
-                    $sheet->setCellValue('D' . $row, $subtask->name); // Subtask
-                    $sheet->setCellValue('E' . $row, $subtask->description);
+                    $sheet->setCellValue('C' . $row, $task->name);
+                    $sheet->setCellValue('D' . $row, $subtask->name);
                     $sheet->setCellValue('F' . $row, $subsubtask->name);
                     $sheet->setCellValue('G' . $row, $subsubtask->description);
 
-                    // Cek apakah subsubtask memiliki laporan
+                    // Tambahkan hyperlink laporan jika tersedia
                     if ($subsubtask->reports->isNotEmpty()) {
-                        $subsubtaskUrl = 'http://127.0.0.1:8000/reports/detail-reports/' . $subsubtask->reports->first()->id;
+                        $subsubtaskUrl = 'http://127.0.0.1:8000/detailReport/' . $subsubtask->reports->first()->id;
                         $sheet->setCellValue('H' . $row, 'Lihat Laporan');
-                        $sheet
-                            ->getCell('H' . $row)
-                            ->getHyperlink()
-                            ->setUrl($subsubtaskUrl);
-                        $sheet
-                            ->getStyle('H' . $row)
-                            ->getFont()
-                            ->getColor()
-                            ->setRGB('0000FF'); // Warna biru
-                        $sheet
-                            ->getStyle('H' . $row)
-                            ->getFont()
-                            ->setUnderline(true);
+                        $sheet->getCell('H' . $row)->getHyperlink()->setUrl($subsubtaskUrl);
+                        $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');
+                        $sheet->getStyle('H' . $row)->getFont()->setUnderline(true);
                     } else {
                         $sheet->setCellValue('H' . $row, 'Belum Ada Laporan');
                     }
@@ -242,6 +120,16 @@ class ExcelController extends Controller
                 }
             }
         }
+
+        // Menambahkan border pada seluruh data
+        $sheet->getStyle('A1:H' . ($row - 1))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
 
         // Menulis file Excel ke dalam output
         $writer = new Xlsx($spreadsheet);
@@ -256,7 +144,8 @@ class ExcelController extends Controller
             [
                 'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'Content-Disposition' => 'attachment; filename="kegiatan.xlsx"',
-            ],
+            ]
         );
     }
 }
+

@@ -103,6 +103,7 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::post('/member/edit_event/{id}', [EventController::class, 'updateevent']);
     Route::get('/member/deleteevent/{id}', [EventController::class, 'deleteevent']);
 
+    Route::get('/member/mytask', [TaskController::class, 'mytask']);
 
     Route::get('/member/task', [TaskController::class, 'showtask']);
     Route::get('/filter', [TaskController::class, 'selectEvents']);
@@ -138,9 +139,12 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::get('/member/detailReport', [DetailReportController::class, 'show']);
     Route::get('/member/addDetailReport/{id}', [DetailReportController::class, 'add']);
     Route::post('/member/addDetailReport/{id}', [DetailReportController::class, 'create']);
+    Route::get('/member/updateDetail/{id}', [DetailReportController::class, 'edit']);
+    Route::post('/member/updateDetail/{id}', [DetailReportController::class, 'update']);
+    Route::get('/member/deleteDetail/{id}', [DetailReportController::class, 'delete']);
 
 
-
+    
     Route::get('/member/showmember',[MemberController::class,'show']);
     Route::get('/member/addmember/{id}',[MemberController::class,'addmember']);
     Route::post('/member/addmember/{id}',[MemberController::class,'createmember']);

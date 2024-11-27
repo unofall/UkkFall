@@ -15,31 +15,39 @@
                         <div class="card-title">Create Detail Report</div>
                     </div>
                     <div class="card-body">
-                        <form action="/updateDetail/{{ $detail->id }}" method="POST">
+                        <form
+                            @if (Auth::user()->level === 'Admin') action="/updateDetail/{{ $detail->id }}"
+                            @elseif (Auth::user()->level === 'Member')
+                            action="/member/updateDetail/{{ $detail->id }}" @endif
+                             method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="squareInput">Description</label>
-                                <input type="text" class="form-control input-square" name="description" id="squareInput" value="{{ $detail->description }}">
-                            @error('description')
+                                <input type="text" class="form-control input-square" name="description" id="squareInput"
+                                    value="{{ $detail->description }}">
+                                @error('description')
                                     <span class="text-danger">Description cannot be empty</span>
-                            @enderror
+                                @enderror
                             </div>
 
                             <input type="hidden" name="reports_id" value="{{ $report->id }}">
                             <div class="form-group">
                                 <label for="squareInput">Date Time</label>
-                                <input type="datetime-local" class="form-control input-square" id="squareInput" name="datetime">
+                                <input type="datetime-local" class="form-control input-square" id="squareInput"
+                                    name="datetime">
                                 @error('datetime')
                                     <span class="text-danger">Date cannot be empty</span>
                                 @enderror
                             </div>
                             <div id="" class="form-group">
-                                 <label for="linkLabel" id="linkLabel">Link File</label>
-                                  <input type="text" class="form-control input-square" name="link_file" id="linkInput" value="{{ $detail->link_file }}" placeholder="Input Link">
-                                  @error('link_file')
+                                <label for="linkLabel" id="linkLabel">Link File</label>
+                                <input type="text" class="form-control input-square" name="link_file" id="linkInput"
+                                    value="{{ $detail->link_file }}" placeholder="Input Link">
+                                @error('link_file')
                                     <span class="text-danger">Link cannot be empty</span>
-                                  @enderror
-                                <button type="button" class="btn btn-primary my-2" onclick="toggleInput()">Toggle Input</button>
+                                @enderror
+                                <button type="button" class="btn btn-primary my-2" onclick="toggleInput()">Toggle
+                                    Input</button>
                             </div>
                             <button type="submit" class="w-100 mb-2 btn btn-success">Submit</button>
                             {{--  <a href="/event" class="btn btn-danger  w-100">Back</a>  --}}

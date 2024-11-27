@@ -110,7 +110,7 @@
                                                         @elseif (Auth::user()->level === 'Member')
                                                             <a href="/member/addDetailReport/{{ $item->id }}"
                                                                 class="dropdown-item" title="Create Report">
-                                                                <i class="bi bi-file-earmark-plus me-2"></i> Create Detail 
+                                                                <i class="bi bi-file-earmark-plus me-2"></i> Create Detail
                                                             </a>
                                                         @endif
                                                     </li>

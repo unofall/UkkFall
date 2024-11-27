@@ -15,30 +15,59 @@ class MemberController extends Controller
         return view('member.member',compact('members'));
     }
 
-    function addmember(Request $request){
-        // $data['user'] = User::where('level','Member')->whereDoesntHave('member')->get();
-        $data['user'] = User::where('level','Member')->get();
-        $data['task'] = Task::find($request->id);
-        return view('member.add-member',$data);
-        // $data['task'] = Report::with('tasks')->whereHas('tasks',function($query){
-        //     $query->whereDoesntHave('members')->get();
-        // });
+    function addmember($id) {
+        // Retrieve users with 'Member' level
+        $data['user'] = User::where('level', 'Member')->get();
+
+        // Retrieve the task by ID
+        $data['task'] = Task::find($id);
+
+        // If the task doesn't exist, return an error or redirect
+        if (!$data['task']) {
+            return redirect()->back()->with('error', 'Task not found');
+        }
+
+        // Return the view with the user and task data
+        return view('member.add-member', $data);
     }
 
-    function createmember(Request $request){
+
+    function createmember(Request $request) {
+        // Validate the incoming request data
         $member = $request->validate([
             'user_id' => ['required'],
             'task_id' => ['required']
         ]);
 
         if ($member) {
+            // Create a new member record
             Member::create([
                 'user_id' => $request->user_id,
                 'task_id' => $request->task_id,
             ]);
+
+            // Retrieve the task to update its users_id
+            $task = Task::find($request->task_id);
+
+            if ($task) {
+                // Get the current users_id or initialize as an empty array
+                $users_id = $task->users_id ?? [];
+
+                // Add the new user_id to the users_id array if not already there
+                if (!in_array($request->user_id, $users_id)) {
+                    $users_id[] = $request->user_id;
+                }
+
+                // Save the updated task with the new users_id
+                $task->users_id = $users_id;
+               
+            }
+
+            // Redirect to the 'showmember' page after successfully adding the member
             return redirect('/member/showmember');
         }
     }
+
 
     function delete(Request $request){
         Member::find($request->id);

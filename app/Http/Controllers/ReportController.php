@@ -84,7 +84,13 @@ class ReportController extends Controller
                         'task_idtasks' => $request->task_idtasks,
                         // 'percentage' => '',
                     ]);
-                    return redirect('/report')->with('success', 'Report successfully updated');
+                    if (Auth::user()->level === 'Admin') {
+                        return redirect('/report')->with('success', 'Report successfully updated');
+                    } elseif (Auth::user()->level === 'Member') {
+                        return redirect('/member/report')->with('success', 'Report created successfully');
+                    }
+                    return redirect()->back();
+
             }
         }
 

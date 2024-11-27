@@ -80,7 +80,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="card rounded-3 h-12">
-                    <div class="d-flex justify-content-between align-items-center mx-3">
+                    {{-- <div class="d-flex justify-content-between align-items-center mx-3">
                         <!-- Title -->
                         <div class=" fs-6 fw-bold ms-2" style="letter-spacing: 1px; word-spacing: 3px">Management Task</div>
                         <!-- Filter Form -->
@@ -98,7 +98,7 @@
                                 @endforeach
                             </select>
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card rounded-3">
                     <div class="card-body">
@@ -113,7 +113,6 @@
                                     <th scope="col">Name Task</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Percentage</th>
-
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -124,13 +123,15 @@
                                         <td>{{ $item->events->name }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
+                                        <td>{{ $item->calculatePercentage() }}%</td>
                                         <td>
-                                            <div style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
-                                                <div style="width: {{ $item->calculatePercentage() }}%; background-color: {{ $item->calculatePercentage() > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;"></div>
-                                            </div>
-                                            <span style="font-size: 12px; color: #555;">{{ number_format($item->calculatePercentage(), 2) }}%</span>
+                                            {{-- <div class="progress">
+                                                <div class="progress-bar" style="width: {{ $item->percentage }}%"
+                                                    aria-valuenow="{{ $item->percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                                    {{ round($item->percentage, 2) }}%
+                                                </div>
+                                            </div> --}}
                                         </td>
-
                                         {{-- <td>{{ $item->users_id }}</td> --}}
                                         <td>
                                             <div class="dropdown-center">

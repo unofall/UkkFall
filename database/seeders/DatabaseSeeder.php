@@ -38,8 +38,8 @@ class DatabaseSeeder extends Seeder
        ]);
 
        Event::create([
-        "name" => "Santunan",
-        "description" => "Mencar Anak Sholeh",
+        "name" => "Muludan",
+        "description" => "Mencari Anak Sholeh",
         "date" => "2024-11-26",
         "created_by" => 2,
 
