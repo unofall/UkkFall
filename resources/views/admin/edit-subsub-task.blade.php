@@ -2,45 +2,52 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
-<div class="main-panel">
-    <div class="content">
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-header text-center">
-                    <div class="card-title">Update SubSub Task</div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <div class="card-title">Update SubSub Task</div>
 
-                </div>
-                <div class="card-body">
-                    <form action="/edit-subSubtask/{{ $task->id }}" method="POST">
-                        @csrf
+                    </div>
+                    <div class="card-body">
+                        <form
+                            @if (Auth::user()->level === 'Admin')  action="/edit-subSubtask/{{ $task->id }}"
+                        @elseif (Auth::user()->level === 'Member')
+                        action="/member/edit-subSubtask/{{ $task->id }}"  @endif
+                           method="POST">
+                            @csrf
 
-                        <div class="form-group">
-                            <label for="input-2">Sub Task</label>
-                            <input type="text" class="form-control input-square" name="task_idtasks" id="input-1" placeholder="Input name task" value="{{ $task->parentTask->name }}" disabled >
-                        </div>
-
-                        <input type="hidden" name="task_idtasks" value="{{ $task->id }}">
-                        <div id="criteria-container">
                             <div class="form-group">
-                                <label for="input-1">Sub Sub Task</label>
-                                <input type="text" class="form-control input-square" name="name" id="input-1" placeholder="Input Sub Task" value="{{ $task->name }}">
+                                <label for="input-2">Sub Task</label>
+                                <input type="text" class="form-control input-square" name="task_idtasks" id="input-1"
+                                    placeholder="Input name task" value="{{ $task->parentTask->name }}" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="input-3">Description</label>
-                                <textarea id="" cols="30" rows="7" id="input-3" name="description" class="form-control input-square" placeholder="Input Description">{{ $task->description }}</textarea>
-                            </div>
-                        </div>
 
-                        <div class="d-flex justify-content-end mt-2">
-                            <button type="submit" class="mr-2 w-100 btn btn-success">Submit</button>
-                        </div>
-                    </form>
+                            <input type="hidden" name="task_idtasks" value="{{ $task->id }}">
+                            <div id="criteria-container">
+                                <div class="form-group">
+                                    <label for="input-1">Sub Sub Task</label>
+                                    <input type="text" class="form-control input-square" name="name" id="input-1"
+                                        placeholder="Input Sub Task" value="{{ $task->name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-3">Description</label>
+                                    <textarea id="" cols="30" rows="7" id="input-3" name="description"
+                                        class="form-control input-square" placeholder="Input Description">{{ $task->description }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-2">
+                                <button type="submit" class="mr-2 w-100 btn btn-success">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{{-- <script>
+    {{-- <script>
     function addCriteria(){
         let criteriaContainer = document.getElementById('criteria-container');
 

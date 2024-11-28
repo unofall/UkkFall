@@ -71,7 +71,7 @@
                                     <th scope="col">Role</th>
                                     <th scope="col">Alamat</th>
                                     {{--  <th scope="col">Foto</th>  --}}
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

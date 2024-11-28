@@ -101,7 +101,7 @@
                                     <th scope="col">Link</th>
                                     <th scope="col">File</th>
                                     <th scope="col">Percentage</th>
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,7 +129,14 @@
                                                 Tidak Ada File
                                             @endif
                                         </td>
-                                        <td>{{ $item->percentage }}%</td>
+                                        <td><div
+                                            style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+                                            <div
+                                                style="width: {{ $item->percentage }}%; background-color: {{ $item->percentage > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;">
+                                            </div>
+                                        </div>
+                                        <span
+                                            style="font-size: 12px; color: #555;">{{ number_format($item->percentage, 2) }}%</span></td>
 
                                         <td>
                                             <div class="dropdown">

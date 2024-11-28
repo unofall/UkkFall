@@ -88,22 +88,12 @@ h3 {
                                     <input type="password" name="password" class="form-control form-control-lg rounded-3"
                                         id="password" placeholder="Enter your password" required>
                                 </div>
-                                {{-- <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="form-check text-dark">
-                                        <input class="form-check-input" type="checkbox" id="rememberMe" checked>
-                                        <label class="form-check-label" for="rememberMe">Remember Me</label>
-                                    </div>
-                                    <a class="text-primary fw-bold" href="#">Forgot Password?</a>
-                                </div> --}}
                                 <button type="submit" class="btn btn-primary btn-lg w-100 py-3 rounded-3">
                                     Sign In
                                 </button>
                             </form>
                         </div>
                     </div>
-                    <p class="text-center text-muted mt-4">
-                        Don't have an account? <a href="#" class="text-primary fw-bold">Create one</a>
-                    </p>
                 </div>
             </div>
         </div>

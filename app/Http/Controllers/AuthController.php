@@ -41,6 +41,7 @@ class AuthController extends Controller
 
     function home()
     {
+        $data['memberCount'] = User::where('level', 'Member')->count();
         $data['userCount'] = User::count();
         $data ['eventCount'] = Event::count();
         $data['reportCount'] = Report::where('percentage', 100)->count();
@@ -56,7 +57,41 @@ class AuthController extends Controller
     function profupdate(Request $request)
     {
         $data['user'] = User::find($request->id);
-        return view('admin.user-edit',$data);
+        return view('admin.edit-profile',$data);
+    }
+
+    function profedit(Request $request)
+    {
+        $validasi = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'min:20',
+            'email' => 'required|email',
+            'nohp' => 'required',
+            'numeric',
+            'address' => 'required',
+            'foto' => '',
+        ]);
+        $request['level'] = 2;
+        $request['password'] = bcrypt($request->password);
+
+        if ($validasi) {
+            User::where('id', $request->id)->update([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'nohp' => $request->nohp,
+                'address' => $request->address,
+                'password' => bcrypt($request->password),
+            ]);
+            if (Auth::user()->level === 'Admin') {
+                return redirect('/profile')->with('pesan', 'User successfully changed');
+            } elseif (Auth::user()->level === 'Member') {
+                return redirect('/member/profile')->with('pesan', 'Profile successfully updated');
+            }
+        } else {
+            return back();
+        }
     }
 
     function createuser()

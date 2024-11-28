@@ -88,9 +88,9 @@
                                     <th scope="col">No.</th>
                                     <th scope="col">Sub Task</th>
                                     <th scope="col">Deskripsi</th>
-                                    <th scope="col">Persentase</th>
+                                    <th scope="col">Percentage</th>
                                     {{-- <th scope="col">Status</th> --}}
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -44,8 +44,8 @@
 <body>
     <div class="main-header">
         <div class="logo-header">
-            <a href="/home" class="logo">
-                Management System
+            <a href="/home" class="logo" style="text-decoration: none">
+                System Management
             </a>
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                 data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                             aria-expanded="false">
                             @if (Auth::user()->level === 'Admin')
-                                <img src={{ asset('assets/img/profile.jpg') }} alt="user-img" width="36"
+                                <img src={{ asset('assets/img/admin.jpg') }} alt="user-img" width="36"
                                     class="img-circle">
                             @else
                                 <img src={{ asset('assets/img/member.jpg') }} alt="user-img" width="36"
@@ -77,7 +77,7 @@
                                 <div class="user-box">
                                     <div class="u-img">
                                         @if (Auth::user()->level === 'Admin')
-                                            <img src={{ asset('assets/img/profile.jpg') }} alt="user-img" width="36"
+                                            <img src={{ asset('assets/img/admin.jpg') }} alt="user-img" width="36"
                                                 class="img-circle">
                                         @else
                                             <img src={{ asset('assets/img/member.jpg') }} alt="user-img"
@@ -88,8 +88,14 @@
                                     <div class="u-text">
                                         <h4>{{ Auth::User()->name }}</h4>
                                         <p>{{ Auth::User()->email }}</p>
-                                        <p class="text-muted"></p><a href="/member/profile"
-                                            class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                        <p class="text-muted"></p>
+                                        @if (Auth::user()->level === 'Admin')
+                                            <a href="/profile" class="btn btn-rounded btn-danger btn-sm">
+                                            @else
+                                                <a href="/member/profile" class="btn btn-rounded btn-danger btn-sm">
+                                        @endif
+                                        View
+                                        Profile</a>
                                     </div>
                                 </div>
                             </li>
@@ -114,7 +120,7 @@
             <div class="user">
                 <div class="photo">
                     @if (Auth::user()->level === 'Admin')
-                        <img src={{ asset('assets/img/profile.jpg') }}>
+                        <img src={{ asset('assets/img/admin.jpg') }}>
                     @else
                         <img src={{ asset('assets/img/member.jpg') }}>
                     @endif

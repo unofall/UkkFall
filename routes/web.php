@@ -33,6 +33,9 @@ Route::post('/auth', [AuthController::class, 'auth']);
 Route::middleware(['checkLevel:Admin'])->group(function () {
     Route::get('/home', [AuthController::class, 'home']);
     Route::get('/profile', [AuthController::class, 'profile']);
+    Route::get('/profupdate/{id}', [AuthController::class, 'profupdate']);
+    Route::post('/profupdate/{id}',[AuthController::class,'profedit']);
+
     Route::get('/user', [AuthController::class, 'showuser']);
     Route::get('/adduser', [AuthController::class, 'createuser']);
     Route::post('/adduser', [AuthController::class, 'adduser']);
@@ -65,7 +68,6 @@ Route::middleware(['checkLevel:Admin'])->group(function () {
     Route::get('/subSubtask/{id}', [TaskController::class, 'showsubSubtask']);
     Route::get('/create-subSubtask/{id}', [TaskController::class, 'addsubSubtasks']);
     Route::post('/create-subSubtask/{id}', [TaskController::class, 'addsubSubtask']);
-    // Route::get('/completeSubSubTask/{id}', [TaskController::class,'completeSubSubTask']);
     Route::get('/edit-subSubtask/{id}', [TaskController::class, 'edit']);
     Route::post('/edit-subSubtask/{id}', [TaskController::class, 'update']);
     Route::get('/deletesubSubTask/{id}', [TaskController::class, 'delete']);
@@ -83,11 +85,8 @@ Route::middleware(['checkLevel:Admin'])->group(function () {
     Route::get('/updateDetail/{id}', [DetailReportController::class, 'edit']);
     Route::post('/updateDetail/{id}', [DetailReportController::class, 'update']);
     Route::get('/deleteDetail/{id}', [DetailReportController::class, 'delete']);
-
     Route::get('/tasks/export', [ExcelController::class, 'export'])->name('tasks.export');
-    // Route::get('/member',[MemberController::class,'show']);
 
-    // Route::get('/member/showmember',[MemberController::class,'show']);
 });
 
 Route::middleware(['checkLevel:Member'])->group(function () {
@@ -156,7 +155,7 @@ Route::middleware(['checkLevel:Member'])->group(function () {
 
     Route::get('/member/profile', [AuthController::class, 'profile']);
     Route::get('/member/profupdate/{id}', [AuthController::class, 'profupdate']);
-    Route::post('/member/profupdate/{id}',[AuthController::class,'edit']);
+    Route::post('/member/profupdate/{id}',[AuthController::class,'profedit']);
 
     Route::get('/member/tasks/export', [ExcelController::class, 'export']);
     Route::get('/member/logout', [AuthController::class, 'logout']);

@@ -98,7 +98,7 @@
                                     {{-- <th scope="col">Percentage</th> --}}
                                     <th scope="col">Dibuat Oleh</th>
                                     {{-- <th scope="col">Task</th> --}}
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

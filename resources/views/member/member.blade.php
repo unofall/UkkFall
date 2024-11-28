@@ -101,7 +101,7 @@
                                     <th scope="col">Name Task</th>
                                     <th scope="col">Name Member</th>
 
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -238,10 +238,11 @@ class TaskController extends Controller
             'description' => $request->description,
         ]);
         if (Auth::user()->level === 'Admin') {
-            return redirect('/subSubtask/' . $request->id)->with('sukses', 'Berhasil');
+            return redirect('/task')->with('update', 'Berhasil');
         } elseif (Auth::user()->level === 'Member') {
-            return redirect('/member/subSubtask/' . $request->id)->with('sukses', 'Berhasil');
+            return redirect('/member/task')->with('update', 'Berhasil');
         }
+
         return redirect()->back()->with('error', 'gagal');
     }
 

@@ -76,6 +76,21 @@
             color: #fff;
         }
     </style>
+    @if (session()->has('sukses'))
+        <div class="alert alert-success" style="width: 100% ; ">
+            {{ session()->get('sukses') }}
+        </div>
+    @endif
+    {{--  Notif Berhasil Diubah  --}}
+    @if (session()->has('edit'))
+        <div class="alert alert-info" style="width: 100% ; ">
+            {{ session()->get('edit') }}</div>
+    @endif
+    {{--  Notif Berhasil Dihapus  --}}
+    @if (session()->has('Pesan'))
+        <div class="alert alert-danger" style="width: 100% ; ">
+            {{ session()->get('Pesan') }}</div>
+    @endif
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
@@ -114,7 +129,7 @@
                                     <th scope="col">Description</th>
                                     <th scope="col">Percentage</th>
 
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,10 +140,14 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>
-                                            <div style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
-                                                <div style="width: {{ $item->calculatePercentage() }}%; background-color: {{ $item->calculatePercentage() > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;"></div>
+                                            <div
+                                                style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+                                                <div
+                                                    style="width: {{ $item->calculatePercentage() }}%; background-color: {{ $item->calculatePercentage() > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;">
+                                                </div>
                                             </div>
-                                            <span style="font-size: 12px; color: #555;">{{ number_format($item->calculatePercentage(), 2) }}%</span>
+                                            <span
+                                                style="font-size: 12px; color: #555;">{{ number_format($item->calculatePercentage(), 2) }}%</span>
                                         </td>
 
                                         {{-- <td>{{ $item->users_id }}</td> --}}

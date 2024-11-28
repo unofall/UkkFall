@@ -68,7 +68,8 @@ class ExcelController extends Controller
 
             // Tambahkan hyperlink laporan jika tersedia
             if ($task->reports->isNotEmpty()) {
-                $taskUrl = 'http://127.0.0.1:8000/detailReport/' . $task->reports->first()->id;
+                $taskUrl = 'http://127.0.0.1:8000/detailReport/';
+                //  . $task->reports->first()->id;
                 $sheet->setCellValue('H' . $row, 'Lihat Laporan');
                 $sheet->getCell('H' . $row)->getHyperlink()->setUrl($taskUrl);
                 $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');
@@ -87,7 +88,8 @@ class ExcelController extends Controller
 
                 // Tambahkan hyperlink laporan jika tersedia
                 if ($subtask->reports->isNotEmpty()) {
-                    $subtaskUrl = 'http://127.0.0.1:8000/detailReport/' . $subtask->reports->first()->id;
+                    $subtaskUrl = 'http://127.0.0.1:8000/detailReport/';
+                    //  . $subtask->reports->first()->id;
                     $sheet->setCellValue('H' . $row, 'Lihat Laporan');
                     $sheet->getCell('H' . $row)->getHyperlink()->setUrl($subtaskUrl);
                     $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');
@@ -107,7 +109,8 @@ class ExcelController extends Controller
 
                     // Tambahkan hyperlink laporan jika tersedia
                     if ($subsubtask->reports->isNotEmpty()) {
-                        $subsubtaskUrl = 'http://127.0.0.1:8000/detailReport/' . $subsubtask->reports->first()->id;
+                        $subsubtaskUrl = 'http://127.0.0.1:8000/detailReport/';
+                        //  . $subsubtask->reports->first()->id
                         $sheet->setCellValue('H' . $row, 'Lihat Laporan');
                         $sheet->getCell('H' . $row)->getHyperlink()->setUrl($subsubtaskUrl);
                         $sheet->getStyle('H' . $row)->getFont()->getColor()->setRGB('0000FF');

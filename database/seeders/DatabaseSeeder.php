@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         "nohp" => "085624815963",
         "address" => "Spa",
         "level" => 1,
-        "foto" => 'assets/img/profile.jpg',
+        "foto" => 'assets/img/admin.jpg',
         "password" => bcrypt("12345"),
        ]);
 
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
        ]);
 
        Event::create([
-        "name" => "Muludan",
+        "name" => "Pengajian",
         "description" => "Mencari Anak Sholeh",
         "date" => "2024-11-26",
         "created_by" => 2,

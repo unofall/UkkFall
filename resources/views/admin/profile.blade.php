@@ -34,21 +34,33 @@
     <div class="main-panel">
         <div class="content">
             <div class="container-fluid">
+                @if (session()->has('pesan'))
+                    <div class="alert alert-primary" style="width: 100% ; ">
+                        {{ session()->get('pesan') }}
+                    </div>
+                @endif
                 <div class="row">
                     <!-- Profile Card -->
                     <div class="col-md-4">
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
-                                <img src="{{ Auth::user()->level === 'Admin' ? asset('assets/img/profile.jpg') : asset('assets/img/member.jpg') }}"
+                                <img src="{{ Auth::user()->level === 'Admin' ? asset('assets/img/admin.jpg') : asset('assets/img/member.jpg') }}"
                                     class="rounded-circle img-fluid mb-3"
                                     style="width: 150px; height: 150px; object-fit: cover;" alt="Profile Picture">
                                 <h5 class="card-title fw-bold ">{{ Auth::User()->name }}</h5>
                                 <p class="card-text text-muted">
-                                    {{ Auth::user()->level === 'Admin' ? 'Administrator' : 'Member' }}
+                                    {{ Auth::user()->level === 'Admin' ? 'Admin' : 'Member' }}
                                 </p>
-                                <a  href="/member/profupdate/{{ Auth::user()->id }}" class="btn btn-outline-primary">
-                                    Edit Profile
-                                </a>
+                                @if (Auth::user()->level === 'Admin')
+                                    <a href="/profupdate/{{ Auth::user()->id }}" class="btn btn-outline-primary">
+                                        Edit Profile
+                                    </a>
+                                @elseif (Auth::user()->level === 'Member')
+                                    <a href="/member/profupdate/{{ Auth::user()->id }}" class="btn btn-outline-primary">
+                                        Edit Profile
+                                    </a>
+                                @endif
+
                             </div>
                         </div>
                     </div>

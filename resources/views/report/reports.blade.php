@@ -3,9 +3,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
     <style>
-
-/* Style dropdown Tabel */
-.custom-dropdown-menu li a {
+        /* Style dropdown Tabel */
+        .custom-dropdown-menu li a {
             font-size: 15px;
             /* Mengatur ukuran font untuk teks di dalam dropdown */
             margin: 10px 10px 10px 20px;
@@ -78,8 +77,8 @@
                                     <th scope="col">Name Report</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Tanggal</th>
-                                    <th scope="col">Persentase selesai</th>
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Percentage</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,7 +89,16 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->subSubTasks->name }}</td>
                                         <td>{{ $item->duetime }}</td>
-                                        <td>{{ $item->percentage }}%</td>
+                                        <td>
+                                            <div
+                                                style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+                                                <div
+                                                    style="width: {{ $item->percentage }}%; background-color: {{ $item->percentage > 50 ? '#4caf50' : '#0031d1' }}; height: 10px;">
+                                                </div>
+                                            </div>
+                                            <span
+                                                style="font-size: 12px; color: #555;">{{ number_format($item->percentage, 2) }}%</span>
+                                        </td>
                                         <td>
                                             <div class="dropdown-center">
                                                 <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown"
@@ -120,7 +128,7 @@
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/report/update/{{ $item->id }}"
+                                                            <a href="/report/update/{{ $item->id }}"
                                                                 class="dropdown-item" title="Update Report">
                                                                 <i class="bi bi-pencil-square me-2"></i> Update Report
                                                             </a>
@@ -134,7 +142,7 @@
 
                                                     <li>
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/deletereport/{{ $item->id }}"
+                                                            <a href="/deletereport/{{ $item->id }}"
                                                                 class="dropdown-item text" title="Delete Report">
                                                                 <i class="bi bi-trash me-2"></i> Delete Report
                                                             </a>
