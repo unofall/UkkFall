@@ -112,9 +112,9 @@
                                             </div>
                                         </div>
                                         <div class="col-7 d-flex align-items-center">
-                                            <div class="numbers">
-                                                <p class="card-category">Revenue</p>
-                                                <h4 class="card-title">$ 1,345</h4>
+                                            <div class="numbers text-center">
+                                                <p class="card-category">Task Success</p>
+                                                <h4 class="card-title">{{ $taskCount }}</h4>
                                             </div>
                                         </div>
                                     </div>

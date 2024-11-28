@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label for="squareInput">Date Time</label>
                                 <input type="datetime-local" class="form-control input-square" id="squareInput"
-                                    name="datetime">
+                                    name="datetime" value="{{ $detail->datetime }}">
                                 @error('datetime')
                                     <span class="text-danger">Date cannot be empty</span>
                                 @enderror

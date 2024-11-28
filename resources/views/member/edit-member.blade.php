@@ -13,7 +13,7 @@
                             <div class="card-title">Create Member</div>
                         </div>
                         <div class="card-body">
-                            <form action="/addmember/{{ $task->id }}" method="POST" enctype="multipart/form-data">
+                            <form action="/member/edit/{{ $member->id }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label for="squareInput">Name Member</label>
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="squareInput">Task</label>
-                                    <input type="text" class="form-control input-square" name="" id="squareInput" placeholder="Input name task" value="{{ $task->name }}">
+                                    <input type="text" class="form-control input-square" name="" id="squareInput" placeholder="Input name task" value="{{ $task->name }}" disabled>
                                 </div>
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
 

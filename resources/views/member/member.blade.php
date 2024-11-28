@@ -3,19 +3,55 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
     <style>
-        .custom-dropdown-menu {
-            min-width: 60px;
-            /* Anda bisa mengatur ukuran sesuai kebutuhan */
-        }
-
-        .custom-dropdown-menu li a {
+       /* Style dropdown Tabel */
+       .custom-dropdown-menu li a {
             font-size: 15px;
             /* Mengatur ukuran font untuk teks di dalam dropdown */
-            margin: 40px 10px 10px 20px;
+            margin: 10px 10px 10px 20px;
             /* Mengurangi padding untuk setiap item */
             text-decoration: none;
             color: black;
             font-weight: 600
+        }
+
+        .custom-dropdown-menu {
+            background-color: #ffffff;
+            /* Warna latar belakang */
+            border: 1px solid #ddd;
+            /* Border halus */
+            border-radius: 8px;
+            /* Border melengkung */
+            padding: 10px;
+            /* Ruang dalam */
+            min-width: 200px;
+            /* Lebar minimum dropdown */
+        }
+
+        .custom-dropdown-menu .dropdown-item {
+            display: block;
+            /* Pastikan elemen mengambil seluruh lebar dropdown */
+            width: 80%;
+            /* Pastikan elemen melebar sesuai dropdown */
+            padding: 10px 1px;
+            /* Padding antar teks dan tepi */
+            border-radius: 4px;
+            /* Border item melengkung */
+            transition: background-color 0.2s ease, color 0.2s ease;
+            /* Animasi transisi */
+        }
+
+        .custom-dropdown-menu .dropdown-item:hover {
+            background-color: #007bff;
+
+            color: #fff;
+
+        }
+
+
+        .custom-dropdown-menu .dropdown-item.text:hover {
+            background-color: #dc3545;
+
+            color: #fff;
         }
     </style>
     <div class="main-panel">
@@ -79,21 +115,23 @@
                                         <td>{{ $item->users->name }}</td>
 
                                         <td>
-                                            <div class="dropdown-center">
+                                            <div class="dropdown">
                                                 <button type="button" class="btn btn-link" data-bs-toggle="dropdown">
                                                     <i class="bi bi-three-dots-vertical"
                                                         style="font-size: 17px; color: #000;"></i>
                                                 </button>
                                                 <ul class="dropdown-menu custom-dropdown-menu">
-                                                    <li>
-                                                        <a href="update/{{ $item->id }}" title="Edit Member">Edit
-                                                            Member</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/member/delete/{{ $item->id }}" title="Delete Member">
-                                                            Delete
-                                                            Member
+                                                    <li class="mb-1">
+
+                                                        <a href="/member/edit/{{ $item->id }}" class="dropdown-item"
+                                                                title="Update Member">
+                                                                <i class="bi bi-pencil-square me-2"></i> Update Member
                                                         </a>
+
+                                                        <a href="/member/delete/{{ $item->id }}"  class="dropdown-item text"
+                                                            title="Delete Member">
+                                                            <i class="bi bi-trash me-2"></i> Delete Member
+                                                    </a>
                                                     </li>
                                                 </ul>
                                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Detail_Report;
 use App\Models\Event;
 use App\Models\Report;
+use App\Models\Task;
 use App\Models\User;
 use Doctrine\Inflector\Rules\English\Rules;
 use Illuminate\Http\Request;
@@ -35,26 +36,15 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->with('pesan', 'Email atau password salah');
-        // if (Auth::attempt($validate) == 'Admin') {
-        //     return redirect('/home');
-        // }elseif (Auth::attempt($validate) == 'Member') {
-        //     return redirect('/member/home');
-        // }
-    }
 
-    // function homemember()
-    // {
-    //     $userCount = User::count();
-    //     $eventCount = Event::count();
-    //     $reportCount = Report::count();
-    //     return view('admin.home', compact('userCount', 'eventCount', 'reportCount'));
-    // }
+    }
 
     function home()
     {
         $data['userCount'] = User::count();
         $data ['eventCount'] = Event::count();
         $data['reportCount'] = Report::where('percentage', 100)->count();
+        $data['taskCount'] = Task::where('percentage', 100)->count();
         $data['detailCount'] = Detail_Report::where('percentage', 100)->count();
         return view('admin.home', $data);
     }

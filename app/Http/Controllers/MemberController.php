@@ -40,30 +40,13 @@ class MemberController extends Controller
         ]);
 
         if ($member) {
-            // Create a new member record
+       
             Member::create([
                 'user_id' => $request->user_id,
                 'task_id' => $request->task_id,
             ]);
 
-            // Retrieve the task to update its users_id
-            $task = Task::find($request->task_id);
 
-            if ($task) {
-                // Get the current users_id or initialize as an empty array
-                $users_id = $task->users_id ?? [];
-
-                // Add the new user_id to the users_id array if not already there
-                if (!in_array($request->user_id, $users_id)) {
-                    $users_id[] = $request->user_id;
-                }
-
-                // Save the updated task with the new users_id
-                $task->users_id = $users_id;
-               
-            }
-
-            // Redirect to the 'showmember' page after successfully adding the member
             return redirect('/member/showmember');
         }
     }
@@ -77,7 +60,10 @@ class MemberController extends Controller
 
     function edit(Request $request){
         $data['member'] = Member::find($request->id);
-        return view('');
+        $data['task'] = Task::where('id', $request->id)->first();
+        $data['user'] = User::where('level', 'Member')->get();
+
+        return view('member.edit-member', $data);
     }
 
     function update(Request $request){

@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        User::create([
-        "name" => "Naufal",
+        "name" => "Naufal Tri",
         "username" => "Fall",
-        "email" => "naufaltrir@gmail.com",
+        "email" => "admin@gmail.com",
         "nohp" => "085624815963",
         "address" => "Spa",
         "level" => 1,
@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
        ]);
 
        User::create([
-        "name" => "Nofal",
+        "name" => "Tri",
         "username" => "y",
-        "email" => "yo@gmail.com",
+        "email" => "fal@gmail.com",
         "nohp" => "122121222",
         "address" => "Mrj",
         "level" => 2,

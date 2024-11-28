@@ -3,8 +3,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @section('content')
     <style>
-                /* Style dropdown Tabel */
-                .custom-dropdown-menu li a {
+        /* Style dropdown Tabel */
+        .custom-dropdown-menu li a {
             font-size: 15px;
             /* Mengatur ukuran font untuk teks di dalam dropdown */
             margin: 10px 10px 10px 20px;
@@ -78,7 +78,8 @@
             <div class="container-fluid">
                 <div class="card rounded-3 h-12" style="padding: 20px 10px">
                     <div class="d-flex justify-content-between align-items-center mx-3">
-                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Detail Report</div>
+                        <div class=" fs-6 fw-bold" style="letter-spacing: 1px; word-spacing: 3px">Management Detail Report
+                        </div>
                     </div>
                 </div>
                 <div class="card">
@@ -86,7 +87,10 @@
                         <table class="table mt-3 text-center">
                             <div class="card-sub">
                                 This is Detail Report table :
-                                <a href="/tasks/export" class="btn btn-success">EXPORT EXCEL</a>
+                                <a @if (Auth::user()->level === 'Admin') href="/tasks/export"
+                                    @elseif (Auth::user()->level === 'Member')
+                                    href="/member/tasks/export" @endif
+                                    class="btn btn-success">EXPORT EXCEL</a>
                             </div>
                             <thead>
                                 <tr>
@@ -139,7 +143,7 @@
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/updateDetail/{{ $item->id }}"class="dropdown-item"
+                                                            <a href="/updateDetail/{{ $item->id }}"class="dropdown-item"
                                                                 title="Update Detail">
                                                                 <i class="bi bi-pencil-square me-2"></i> Update Detail
                                                             </a>
@@ -154,14 +158,12 @@
 
                                                     <li class="mb-1">
                                                         @if (Auth::user()->level === 'Admin')
-                                                        <a href="/deleteDetail/{{ $item->id }}"
-
+                                                            <a href="/deleteDetail/{{ $item->id }}"
                                                                 class="dropdown-item text" title="Delete Detail">
                                                                 <i class="bi bi-trash me-2"></i> Delete Detail
                                                             </a>
                                                         @elseif (Auth::user()->level === 'Member')
-                                                        <a href="/member/deleteDetail/{{ $item->id }}"
-
+                                                            <a href="/member/deleteDetail/{{ $item->id }}"
                                                                 class="dropdown-item text" title="Delete Detail">
                                                                 <i class="bi bi-trash me-2"></i> Delete Detail
                                                             </a>

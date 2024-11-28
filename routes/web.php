@@ -144,11 +144,13 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::get('/member/deleteDetail/{id}', [DetailReportController::class, 'delete']);
 
 
-    
+
     Route::get('/member/showmember',[MemberController::class,'show']);
     Route::get('/member/addmember/{id}',[MemberController::class,'addmember']);
     Route::post('/member/addmember/{id}',[MemberController::class,'createmember']);
     Route::get('/member/delete/{id}',[MemberController::class,'delete']);
+    Route::get('/member/edit/{id}',[MemberController::class,'edit']);
+    Route::post('/member/edit/{id}',[MemberController::class,'update']);
 
 
 
@@ -156,7 +158,7 @@ Route::middleware(['checkLevel:Member'])->group(function () {
     Route::get('/member/profupdate/{id}', [AuthController::class, 'profupdate']);
     Route::post('/member/profupdate/{id}',[AuthController::class,'edit']);
 
-
+    Route::get('/member/tasks/export', [ExcelController::class, 'export']);
     Route::get('/member/logout', [AuthController::class, 'logout']);
 
 });
